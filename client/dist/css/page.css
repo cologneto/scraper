@@ -1,0 +1,26 @@
+.button {
+    height: 200px;
+    width: 500px;
+    text-align: center;
+    margin: 300px auto;
+    padding: 10px;
+    background-color: red;
+}
+
+.items-container{
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+.item-container {
+    width: 33%;
+    height: auto;
+    border: 1px solid crimson;
+    float: left;
+}
+
+.items-container img {
+    width: 80%;
+    height: auto;
+}

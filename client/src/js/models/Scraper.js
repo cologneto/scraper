@@ -28,15 +28,28 @@ export default class Scraper {
             const textContainer = e.querySelector(tagsClassesAttr.textContainerClass)
             const obj = {
                 imageURL: e.querySelector(tagsClassesAttr.imageTag).src,
-                model: textContainer.querySelector(tagsClassesAttr.modelTag),
-                prodCode:textContainer.querySelector(tagsClassesAttr.prodCodeTag)
+                model: textContainer.querySelector(tagsClassesAttr.modelTag).innerHTML.trim(),
+                prodCode:textContainer.querySelector(tagsClassesAttr.prodCodeTag).innerHTML
             }
 
             arr[arr.length] = obj;
         })
 
-       return arr;
+        this.items = arr;
+        // this.postDataToServer();
     }
+    postDataToServer(){
+        fetch('http://localhost:3001/save-items', {
+            method: 'post',
+            body: JSON.stringify(this.items),
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        }).then(function(response) {
+        })
+    }
+
 }
 
 
