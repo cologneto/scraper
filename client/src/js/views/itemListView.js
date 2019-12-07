@@ -8,10 +8,16 @@ export const renderItemForList = item => {
             </div>
             <div class="model-container">${item.model}</div>
             <div class="prod-code-container">${item.prodCode}</div>
-            <button>Edit</button>
-            <button>Delete</button>
+            <div>
+                <button>Edit</button>
+                <button>Delete</button>
+            </div>
         </div>
     `
     elements.itemsContainer.insertAdjacentHTML('beforeend', markup);
 }
 
+export const deleteItem = id => {
+    const item = document.querySelector(`[data-itemid="${id}"]`);
+    if (item) item.parentElement.removeChild(item);
+};

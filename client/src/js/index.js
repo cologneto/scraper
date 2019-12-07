@@ -7,24 +7,41 @@ import elements from './views/base'
 
 const state = {};
 
+document.addEventListener('DOMContentLoaded', async () => {
+    const isItemsInDB = await itemListController()
+    // TODO: Remove following rows and replace them with render function
+    // TODO: for the button
+    if(isItemsInDB) elements.scraperBtn.disabled = true
+
+})
+
+document.addEventListener('click', (e) => {
+    console.log(e.target.classList);
+})
+
 const scraperController = async () => {
     state.scraper = new Scraper(url);
-    state.itemList = new ItemList();
 
     await state.scraper.scrapeData();
 
     const html = state.scraper.convertTextToHTML();
     state.scraper.convertHTMLtoJSON(html);
 
-    // await state.scraper.postDataToServer()
+    await state.scraper.postDataToServer()
+};
+
+const itemListController = async () => {
+    state.itemList = new ItemList();
+
     await state.itemList.getAllItems();
 
     state.itemList.items.forEach((item) => renderItemForList(item));
 
+    return state.itemList.items.length > 0
+}
 
-};
-
-elements.scraperBtn.addEventListener('click', e => {
+elements.scraperBtn.addEventListener('click', async e => {
     e.preventDefault()
-    scraperController();
+    await scraperController();
+    window.location.reload();
 });
