@@ -11,17 +11,17 @@ module.exports = {
         contentBase: './client/dist',
         hot: true
     },
-    // plugins: [
-    //     new HtmlWebpackPlugin({
-    //         filename: 'index.html',
-    //         template: './client/src/index.html'
-    //     })
-    // ],
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: './client/src/index.html'
+        })
+    ],
     module: {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
+                exclude: ['/node_modules/', '/server/'],
                 use: {
                     loader: 'babel-loader'
                 }
