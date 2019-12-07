@@ -8,9 +8,9 @@ export const renderItemForList = item => {
             </div>
             <div class="model-container">${item.model}</div>
             <div class="prod-code-container">${item.prodCode}</div>
-            <div>
-                <button>Edit</button>
-                <button>Delete</button>
+            <div data-biid="${item.id}">
+                <button class="btn-edit">Edit</button>
+                <button class="btn-del">Delete</button>
             </div>
         </div>
     `
