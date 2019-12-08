@@ -15,20 +15,6 @@ export default class Scraper {
         }
     }
 
-    async postDataToServer(){
-        try {
-            await fetch(`${serverURL}save-items`, {
-                method: 'post',
-                body: JSON.stringify(this.items),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            })
-        } catch (e) {
-            alert(e)
-        }
-    }
-
     convertTextToHTML() {
         const parser = new DOMParser();
         const doc = parser.parseFromString(this.html, 'text/html');
@@ -51,5 +37,24 @@ export default class Scraper {
         })
 
         this.items = arr;
+        // this.postDataToServer();
     }
+    postDataToServer(){
+        fetch(`${serverURL}save-items`, {
+            method: 'post',
+            body: JSON.stringify(this.items),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(function(response) {
+        })
+    }
+
 }
+
+
+// scrapeData().then((html) => {
+//     var parser = new DOMParser();
+//     var doc = parser.parseFromString(html, 'text/html');
+//     console.log(doc)
+// });

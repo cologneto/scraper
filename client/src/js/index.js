@@ -17,31 +17,33 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 document.addEventListener('click', async (e) => {
-    const target = e.target;
-    let id;
-    if(target.tagName === "BUTTON"){
-        if(target.classList.contains('btn-edit')) {
-            console.log("EDIT")
-            id = target.parentNode.getAttribute('data-biid');
+    const targetTagName = e.target.tagName;
+    const targetClList = e.target.classList;
+    let id = ""
 
-        } else if(target.classList.contains('btn-del')){
-            console.log("DELETE");
-            id =  target.parentNode.getAttribute('data-biid');
+    if(targetTagName === "BUTTON") {
+        if(targetClList.contains('btn-edit')) {
+            id = e.target.parentNode.getAttribute('data-biid')
+            await itemController(id, true)
+            console.log("EDIT ITEM")
+        } else if(targetClList.contains('btn-del')) {
+            id = e.target.parentNode.getAttribute('data-biid')
+            await itemController(id, true)
+            console.log("DELETE ITEM")
         }
-
-        await itemController(id)
     }
 
 });
 
-const itemController = async (id) => {
+const itemController = async (id, isEdit) => {
     state.item = new Item();
-
     state.item.id = id;
 
-    await state.item.getItem();
+    await state.item.getItem()
 
-    console.log(state.item);
+
+    console.log(state.item)
+
 }
 
 const scraperController = async () => {

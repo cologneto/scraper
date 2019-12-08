@@ -1,4 +1,5 @@
-.button {
+.scraper-btn {
+    display: initial;
     height: 30px;
     width: 500px;
     text-align: center;
@@ -22,4 +23,8 @@
 .items-container img {
     width: 80%;
     height: auto;
+}
+
+.hide {
+    display: none;
 }

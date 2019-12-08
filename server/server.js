@@ -51,8 +51,8 @@ app.delete('/item/:id', function (req, res) {
 
 app.get('/item/:id', (req, res) => {
     console.log(req.params.id);
-    Item.findById(req.params.id,(err, item) => {
-        if(err) return next(err)
+    Item.collection.findById(req.param.id,(err, item) => {
+        console.log(item);
         res.send(item);
     });
 })
