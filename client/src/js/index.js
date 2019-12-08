@@ -5,6 +5,7 @@ import { url } from './config'
 
 import elements from './views/base'
 import Item from "./models/Item";
+import {renderItemModal} from "./views/itemView";
 
 const state = {};
 
@@ -28,11 +29,10 @@ document.addEventListener('click', async (e) => {
             console.log("EDIT ITEM")
         } else if(targetClList.contains('btn-del')) {
             id = e.target.parentNode.getAttribute('data-biid')
-            await itemController(id, true)
+            await itemController(id, false)
             console.log("DELETE ITEM")
         }
     }
-
 });
 
 const itemController = async (id, isEdit) => {
@@ -41,8 +41,17 @@ const itemController = async (id, isEdit) => {
 
     await state.item.getItem()
 
+    const close = () => {
+        console.log('close');
+    }
 
-    console.log(state.item)
+    const update = () => {
+        console.log('update');
+    }
+
+    if(isEdit) {
+        renderItemModal(state.item, close, update);
+    }
 
 }
 

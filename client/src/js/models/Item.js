@@ -11,8 +11,10 @@ export default class Item {
     async getItem() {
         try {
             const response = await fetch(`${serverURL}item/${this.id}`)
-            // const data = await response.json();
-            // console.log(await response.json());
+            const data = await response.json();
+            this.imageURL = data.imageURL;
+            this.model = data.model;
+            this.prodCode = data.prodCode;
         } catch (e) {
             alert(e);
         }

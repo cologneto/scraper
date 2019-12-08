@@ -51,10 +51,3 @@ export default class Scraper {
     }
 
 }
-
-
-// scrapeData().then((html) => {
-//     var parser = new DOMParser();
-//     var doc = parser.parseFromString(html, 'text/html');
-//     console.log(doc)
-// });

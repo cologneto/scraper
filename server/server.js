@@ -50,8 +50,9 @@ app.delete('/item/:id', function (req, res) {
 })
 
 app.get('/item/:id', (req, res) => {
-    console.log(req.params.id);
-    Item.collection.findById(req.param.id,(err, item) => {
+    var o_userId = mongoose.Types.ObjectId(req.params.id);
+    console.log(o_userId);
+    Item.findById(o_userId,(err, item) => {
         console.log(item);
         res.send(item);
     });
