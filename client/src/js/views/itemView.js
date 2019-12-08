@@ -1,7 +1,4 @@
 import { elements } from './base';
-const closeModal = () => {
-    console.log("CLOSE")
-}
 
 export const renderItemModal = (item) => {
     const markup = `
@@ -11,10 +8,10 @@ export const renderItemModal = (item) => {
                     <img src="${item.imageURL}" alt="${item.model}">
                 </div>
                 <div class="model-container">
-                    <input type="text" value="${item.model}">             
+                    <input type="text" class="mval" value="${item.model}">             
                 </div>
                 <div class="prodCode-container">
-                    <input type="text" value="${item.prodCode}">             
+                    <input type="text" class="pcval" value="${item.prodCode}">             
                 </div>
                 <div class="btn-container">
                     <button class="btn-update">Update</button>

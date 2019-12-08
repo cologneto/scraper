@@ -24,13 +24,11 @@ export default class Item {
         try {
             const response = await fetch(`${serverURL}item/${this.id}`, {
                 method: 'put',
-                body: JSON.stringify(this),
+                body: JSON.stringify({model: this.model, prodCode: this.prodCode, imageURL: this.imageURL }),
                 headers: {
                     'Content-Type': 'application/json'
                 },
             })
-
-            alert(response.text())
         } catch(e) {
             alert(e)
         }
@@ -45,9 +43,8 @@ export default class Item {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-            })
+            });
 
-            alert(response.text())
         } catch(e) {
             alert(e)
         }

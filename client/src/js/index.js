@@ -25,12 +25,27 @@ document.addEventListener('click', async (e) => {
     if(targetTagName === "BUTTON") {
         if(targetClList.contains('btn-edit')) {
             id = e.target.parentNode.getAttribute('data-biid')
-            await itemController(id, true)
-            console.log("EDIT ITEM")
+            await itemController(id, true);
+
         } else if(targetClList.contains('btn-del')) {
             id = e.target.parentNode.getAttribute('data-biid')
             await itemController(id, false)
-            console.log("DELETE ITEM")
+
+        } else if(targetClList.contains('btn-update')){
+            try{
+                const modelVal = document.querySelector('.mval').value;
+                const prodCodeVal = document.querySelector('.pcval').value;
+                state.item.model = modelVal;
+                state.item.prodCode = prodCodeVal;
+                await state.item.updateItem();
+
+                location.reload();
+            }catch (e) {
+                alert(e)
+                console.error("Error from update");
+            }
+        } else if(targetClList.contains('btn-cancel')){
+            document.querySelector('.item-modal-container').remove();
         }
     }
 });
@@ -38,19 +53,18 @@ document.addEventListener('click', async (e) => {
 const itemController = async (id, isEdit) => {
     state.item = new Item();
     state.item.id = id;
-
-    await state.item.getItem()
-
-    const close = () => {
-        console.log('close');
-    }
-
-    const update = () => {
-        console.log('update');
+    try {
+        await state.item.getItem()
+    } catch (e) {
+        alert(e)
+        console.error('Error From item controller')
     }
 
     if(isEdit) {
-        renderItemModal(state.item, close, update);
+        renderItemModal(state.item);
+    } else {
+        await state.item.deleteItem();
+        location.reload();
     }
 
 }
