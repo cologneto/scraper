@@ -4,6 +4,7 @@ import { renderItemForList } from './views/itemListView'
 import { url } from './config'
 
 import elements from './views/base'
+import Item from "./models/Item";
 
 const state = {};
 
@@ -13,11 +14,35 @@ document.addEventListener('DOMContentLoaded', async () => {
     // TODO: for the button
     if(isItemsInDB) elements.scraperBtn.disabled = true
 
-})
+});
 
-document.addEventListener('click', (e) => {
-    console.log(e.target.classList);
-})
+document.addEventListener('click', async (e) => {
+    const target = e.target;
+    let id;
+    if(target.tagName === "BUTTON"){
+        if(target.classList.contains('btn-edit')) {
+            console.log("EDIT")
+            id = target.parentNode.getAttribute('data-biid');
+
+        } else if(target.classList.contains('btn-del')){
+            console.log("DELETE");
+            id =  target.parentNode.getAttribute('data-biid');
+        }
+
+        await itemController(id)
+    }
+
+});
+
+const itemController = async (id) => {
+    state.item = new Item();
+
+    state.item.id = id;
+
+    await state.item.getItem();
+
+    console.log(state.item);
+}
 
 const scraperController = async () => {
     state.scraper = new Scraper(url);

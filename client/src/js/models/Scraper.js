@@ -1,4 +1,5 @@
 import tagsClassesAttr from './base'
+import { serverURL } from "../config";
 
 export default class Scraper {
     constructor(url){
@@ -9,6 +10,20 @@ export default class Scraper {
         try {
             const response = await fetch(this.url)
             this.html = await response.text();
+        } catch (e) {
+            alert(e)
+        }
+    }
+
+    async postDataToServer(){
+        try {
+            await fetch(`${serverURL}save-items`, {
+                method: 'post',
+                body: JSON.stringify(this.items),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
         } catch (e) {
             alert(e)
         }
@@ -36,25 +51,5 @@ export default class Scraper {
         })
 
         this.items = arr;
-        // this.postDataToServer();
     }
-    postDataToServer(){
-        fetch('http://localhost:3001/save-items', {
-            method: 'post',
-            body: JSON.stringify(this.items),
-            headers: {
-                'Content-Type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-        }).then(function(response) {
-        })
-    }
-
 }
-
-
-// scrapeData().then((html) => {
-//     var parser = new DOMParser();
-//     var doc = parser.parseFromString(html, 'text/html');
-//     console.log(doc)
-// });

@@ -16,7 +16,6 @@ app.use(function(req, res, next) {
     next();
 });
 
-// POST method to save the scraped items to database
 app.post('/save-items', function (req, res) {
     Item.collection.insertMany(req.body, function (err) {
         if (err){
@@ -39,18 +38,24 @@ app.get('/items', (req, res) => {
     })
 })
 
+app.put('/item/:id', function (req, res) {
+    Item.findByIdAndUpdate(req.params.id, {$set: req.body}, (err, item) => {
+        if(err) return next(err)
+        res.send('Product updates!')
+    })
+})
 
-// server.get('/usersList', function(req, res) {
-//     User.find({}, function(err, users) {
-//         var userMap = {};
-//
-//         users.forEach(function(user) {
-//             userMap[user._id] = user;
-//         });
-//
-//         res.send(userMap);
-//     });
-// });
+app.delete('/item/:id', function (req, res) {
+    console.log(req.params.id)
+})
+
+app.get('/item/:id', (req, res) => {
+    console.log(req.params.id);
+    Item.findById(req.params.id,(err, item) => {
+        if(err) return next(err)
+        res.send(item);
+    });
+})
 
 const port = process.env.PORT || 3001
 app.listen(3001, () => {
