@@ -23,3 +23,7 @@ export const renderItemModal = (item) => {
     document.body.insertAdjacentHTML('beforeend', markup);
 };
 
+export const deleteItemModalFromDOM = () => {
+    const modCon = document.querySelector(`.item-modal-container`);
+    if (modCon) modCon.parentElement.removeChild(modCon);
+};

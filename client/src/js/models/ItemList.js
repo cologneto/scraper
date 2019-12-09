@@ -11,4 +11,8 @@ export default class ItemList {
         const data = await response.json();
         this.items = helper.json2array(data);
     }
+
+    deleteItem(id) {
+        this.items.splice(this.items.findIndex(i => i.id === id ), 1);
+    }
 }

@@ -1,13 +1,12 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const app = express();
-const config = require('./config/config').get(process.env.NODE_ENV)
+const config = require('./config/config').get(process.env.NODE_ENV);
+const { Item } = require('./models/item');
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config.DATABASE)
-
-const { Item } = require('./models/item')
+mongoose.connect(config.DATABASE);
 
 app.use(express.json());
 app.use(function(req, res, next) {
@@ -37,32 +36,32 @@ app.get('/items', (req, res) => {
 
         res.send(itemMap);
     })
-})
+});
 
 app.put('/item/:id', function (req, res) {
     const o_userId = mongoose.Types.ObjectId(req.params.id);
     Item.findByIdAndUpdate(o_userId, {$set: req.body}, (err, item) => {
-        if(err) return next(err)
+        if(err) return next(err);
         res.send('Product updates!')
     })
-})
+});
 
 app.delete('/item/:id', function (req, res) {
     const o_userId = mongoose.Types.ObjectId(req.params.id);
     Item.findByIdAndRemove(o_userId, (err, item) => {
-        if(err) return next(err)
+        if(err) return next(err);
         res.send('Product deleted!')
     })
-})
+});
 
 app.get('/item/:id', (req, res) => {
     const o_userId = mongoose.Types.ObjectId(req.params.id);
     Item.findById(o_userId,(err, item) => {
         res.send(item);
     });
-})
+});
 
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 3001;
 app.listen(3001, () => {
-    console.log("Server running on port " + port)
-})
+    console.log("Server running on port " + port);
+});
