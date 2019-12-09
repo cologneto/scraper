@@ -24,6 +24,6 @@ export const renderItemModal = (item) => {
 };
 
 export const deleteItemModalFromDOM = () => {
-    const modCon = document.querySelector(`.item-modal-container`);
-    if (modCon) modCon.parentElement.removeChild(modCon);
-};
+         const modCon = document.querySelector(`.item-modal-container`);
+         if (modCon) modCon.parentElement.removeChild(modCon);
+       };

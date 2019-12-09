@@ -1,7 +1,7 @@
-import elements from './base';
+import elements from "./base";
 
 export const renderItemForList = item => {
-    const markup = `
+  const markup = `
         <div class="item-container" data-itemid="${item._id}">
             <div class="image-container">
                 <img src="${item.imageURL}" alt="${item.model}">
@@ -13,17 +13,17 @@ export const renderItemForList = item => {
                 <button class="btn-del">Delete</button>
             </div>
         </div>
-    `
-    elements.itemsContainer.insertAdjacentHTML('beforeend', markup);
-}
+    `;
+  elements.itemsContainer.insertAdjacentHTML("beforeend", markup);
+};
 
 export const deleteItemFromListView = id => {
-    const item = document.querySelector(`[data-itemid="${id}"]`);
-    if (item) item.parentElement.removeChild(item);
+  const item = document.querySelector(`[data-itemid="${id}"]`);
+  if (item) item.parentElement.removeChild(item);
 };
 
 export const updateItemFromListView = (id, item) => {
-    const itemCon = document.querySelector(`[data-itemid="${id}"]`);
-    itemCon.querySelector('.model-container').innerHTML = item.model;
-    itemCon.querySelector('.prod-code-container').innerHTML = item.prodCode;
+  const itemCon = document.querySelector(`[data-itemid="${id}"]`);
+  itemCon.querySelector(".model-container").innerHTML = item.model;
+  itemCon.querySelector(".prod-code-container").innerHTML = item.prodCode;
 };
