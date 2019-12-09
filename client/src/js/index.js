@@ -6,6 +6,7 @@ import { url } from './config'
 import elements from './views/base'
 import Item from "./models/Item";
 import {renderItemModal} from "./views/itemView";
+import { helper } from "./models/base";
 
 const state = {};
 
@@ -72,20 +73,31 @@ const itemController = async (id, isEdit) => {
 const scraperController = async () => {
     state.scraper = new Scraper(url);
 
-    await state.scraper.scrapeData();
+    try{
+        await state.scraper.scrapeData();
+        // data to html doc
+        const html = helper.convertTextToHTML(state.scraper.data);
+        // data to array of json
+        state.scraper.items = helper.convertHTMLtoArrayOfObjects(html);
 
-    const html = state.scraper.convertTextToHTML();
-    state.scraper.convertHTMLtoJSON(html);
+        await state.scraper.postDataToServer()
+    } catch(err) {
+        alert('Something went wrong with scraping')
+    }
 
-    await state.scraper.postDataToServer()
 };
 
 const itemListController = async () => {
-    state.itemList = new ItemList();
 
-    await state.itemList.getAllItems();
+    try {
+        state.itemList = new ItemList();
 
-    state.itemList.items.forEach((item) => renderItemForList(item));
+        await state.itemList.getAllItems();
+
+        state.itemList.items.forEach((item) => renderItemForList(item));
+    } catch(err) {
+        alert("Something went wrong with retrieving items list")
+    }
 
     return state.itemList.items.length > 0
 }

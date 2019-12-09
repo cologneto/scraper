@@ -7,13 +7,8 @@ export default class ItemList {
     }
 
     async getAllItems() {
-        try {
-            const response = await fetch(`${serverURL}items`);
-            const data = await response.json();
-            this.items = helper.json2array(data);
-        } catch (e) {
-            alert(e);
-        }
-
+        const response = await fetch(`${serverURL}items`);
+        const data = await response.json();
+        this.items = helper.json2array(data);
     }
 }

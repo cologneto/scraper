@@ -9,44 +9,30 @@ export default class Item {
     }
 
     async getItem() {
-        try {
-            const response = await fetch(`${serverURL}item/${this.id}`)
-            const data = await response.json();
-            this.imageURL = data.imageURL;
-            this.model = data.model;
-            this.prodCode = data.prodCode;
-        } catch (e) {
-            alert(e);
-        }
+        const response = await fetch(`${serverURL}item/${this.id}`)
+        const data = await response.json();
+        this.imageURL = data.imageURL;
+        this.model = data.model;
+        this.prodCode = data.prodCode;
     }
 
     async updateItem() {
-        try {
-            const response = await fetch(`${serverURL}item/${this.id}`, {
-                method: 'put',
-                body: JSON.stringify({model: this.model, prodCode: this.prodCode, imageURL: this.imageURL }),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            })
-        } catch(e) {
-            alert(e)
-        }
-
+        await fetch(`${serverURL}item/${this.id}`, {
+            method: 'put',
+            body: JSON.stringify({model: this.model, prodCode: this.prodCode, imageURL: this.imageURL }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
     }
 
     async deleteItem() {
-        try {
-            const response = await fetch(`${serverURL}item/${this.id}`, {
-                method: 'delete',
-                body: JSON.stringify(this),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            });
-
-        } catch(e) {
-            alert(e)
-        }
+        await fetch(`${serverURL}item/${this.id}`, {
+            method: 'delete',
+            body: JSON.stringify(this),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
     }
 }
