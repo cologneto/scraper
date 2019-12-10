@@ -37,7 +37,35 @@ const itemController = async (id, isEdit) => {
 
   if (isEdit) {
     renderItemModal(state.item);
-  } else {
+  }
+};
+
+const itemListController = async (isUpdate, isStart) => {
+  if (isStart) {
+    try {
+      state.itemList = new ItemList();
+      await state.itemList.getAllItems();
+      state.itemList.items.forEach(item => renderItemForList(item));
+    } catch (err) {
+      alert("Something went wrong with retrieving items list");
+    }
+  }
+  if (isUpdate) {
+    try {
+      const modelVal = document.querySelector(".mval").value;
+      const prodCodeVal = document.querySelector(".pcval").value;
+
+      state.item.model = modelVal;
+      state.item.prodCode = prodCodeVal;
+
+      await state.item.updateItem();
+      updateItemFromListView(state.item.id, state.item);
+      deleteItemModalFromDOM();
+    } catch (e) {
+      alert("Cannot update item.");
+    }
+  }
+  if (!isStart && !isUpdate) {
     try {
       deleteItemFromListView(state.item.id);
       state.itemList.updateList(state.item);
@@ -51,28 +79,19 @@ const itemController = async (id, isEdit) => {
       alert("Cannot delete item");
     }
   }
-};
-
-const itemListController = async () => {
-  try {
-    state.itemList = new ItemList();
-    await state.itemList.getAllItems();
-    state.itemList.items.forEach(item => renderItemForList(item));
-  } catch (err) {
-    alert("Something went wrong with retrieving items list");
-  }
 
   return state.itemList.items.length > 0;
 };
 
 elements.scraperBtn.addEventListener("click", async e => {
   e.preventDefault();
+  elements.scraperBtn.disabled = true;
   await scraperController();
   location.reload();
 });
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const isItemsInDB = await itemListController();
+  const isItemsInDB = await itemListController(false, true);
   if (isItemsInDB) elements.scraperBtn.disabled = true;
 });
 
@@ -88,20 +107,9 @@ document.addEventListener("click", async e => {
     } else if (targetClList.contains("btn-del")) {
       id = e.target.parentNode.getAttribute("data-biid");
       await itemController(id, false);
+      await itemListController(false, false);
     } else if (targetClList.contains("btn-update")) {
-      try {
-        const modelVal = document.querySelector(".mval").value;
-        const prodCodeVal = document.querySelector(".pcval").value;
-
-        state.item.model = modelVal;
-        state.item.prodCode = prodCodeVal;
-
-        await state.item.updateItem();
-        updateItemFromListView(state.item.id, state.item);
-        deleteItemModalFromDOM();
-      } catch (e) {
-        alert("Cannot update item.");
-      }
+      await itemListController(true, false);
     } else if (targetClList.contains("btn-cancel")) {
       document.querySelector(".item-modal-container").remove();
     }
